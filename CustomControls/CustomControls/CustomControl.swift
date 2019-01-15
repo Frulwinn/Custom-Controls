@@ -16,13 +16,15 @@ class CustomControl: UIControl {
     }
     
     private func setup() {
-        var count = 0
+        var count: CGFloat = 0
         
         //loop to create 5 labels with each label's frame to componentDimension by componentDimension
-        //layout labels in a row with 8 spacing
-
         for number in 1...5 {
-            let label = UILabel(frame: CGRect(x: 8, y: 0, width: componentDimension, height: componentDimension))
+            
+            //layout labels in a row with 8 spacing
+            let space: CGFloat = (componentDimension * count) + (8.0)
+            
+            let label = UILabel(frame: CGRect(x: space, y: 0, width: componentDimension, height: componentDimension))
          
         //append
             self.addSubview(label)
@@ -31,7 +33,7 @@ class CustomControl: UIControl {
             label.text = "☆"
             label.tag = number
             ratingLabels.append(label)
-            count += 1
+            count += 1.0
             
         //font bold system font, size 32.0
             label.font = UIFont.boldSystemFont(ofSize: 32.0)
@@ -50,4 +52,4 @@ class CustomControl: UIControl {
             return CGSize(width: width, height: componentDimension)
         }
     }
-}
+
