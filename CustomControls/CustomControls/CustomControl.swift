@@ -8,4 +8,12 @@ class CustomControl: UIControl {
     let componentActiveColor = UIColor.black
     let componentInactiveColor = UIColor.gray
     
+    required init?(coder aCoder: NSCoder) {
+        super.init(coder: aCoder)
+        setup()
+    }
+    
+    func setup() {
+        
+    }
 }
