@@ -45,6 +45,7 @@ class CustomControl: UIControl {
             label.textColor = componentInactiveColor
         }
     }
+    
     override var intrinsicContentSize: CGSize {
         let componentsWidth = CGFloat(componentCount) * componentDimension
         let componentsSpacing = CGFloat(componentCount + 1) * 8.0
@@ -84,22 +85,30 @@ class CustomControl: UIControl {
     override func cancelTracking(with event: UIEvent?) {
         sendActions(for: [.touchCancel])
         super.cancelTracking(with: event)
-
     }
     
-    func updateValue(at touch: UITouch) {
-        
+    private func updateValue(at touch: UITouch) {
+        //loop that iterates through your component labels and detect whether each touch's location
+        for label in ratingLabels {
+            let touchPoint = touch.location(in: self)
+            
+            if label.frame.contains(touchPoint) {
+                value = label.tag
+                sendActions(for: [.valueChanged])
+                label.performFlare()
+            }
+        }
     }
 }
-
-extension UIView {
-    // "Flare view" animation sequence
-    func performFlare() {
-        func flare()   { transform = CGAffineTransform(scaleX: 1.6, y: 1.6) }
-        func unflare() { transform = .identity }
+    extension UIView {
+        // "Flare view" animation sequence
+        func performFlare() {
+            func flare()   { transform = CGAffineTransform(scaleX: 1.6, y: 1.6) }
+            func unflare() { transform = .identity }
+            
+            UIView.animate(withDuration: 0.3,
+                           animations: { flare() },
+                           completion: { _ in UIView.animate(withDuration: 0.1) { unflare() }})
         
-        UIView.animate(withDuration: 0.3,
-                       animations: { flare() },
-                       completion: { _ in UIView.animate(withDuration: 0.1) { unflare() }})
     }
 }
